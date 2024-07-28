@@ -1,4 +1,5 @@
 const Task = require('../models/task');
+const { Op } = require('sequelize');
 
 // Create a new task
 exports.createTask = async (req, res) => {
@@ -34,13 +35,26 @@ exports.createTask = async (req, res) => {
 
 // Get list of tasks
 exports.getTaskList = async (req, res) => {
+    const { page = 1, size = 10 } = req.query;
+    const limit = parseInt(size);
+    const offset = (page - 1) * limit;
+
     try {
-        const tasks = await Task.findAll();
-        res.status(200).json({ message: 'Task list successful', tasks });
+        const { count, rows } = await Task.findAndCountAll({
+            limit,
+            offset
+        });
+        res.status(200).json({
+            message: 'Task list successful',
+            tasks: rows,
+            totalPages: Math.ceil(count / limit),
+            currentPage: parseInt(page)
+        });
     } catch (error) {
         res.status(500).json({ error: 'An error occurred while retrieving tasks' });
     }
 };
+
 
 // Update a task
 exports.updateTask = async (req, res) => {
