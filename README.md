@@ -7,12 +7,9 @@ This is a RESTful API for managing tasks, built with Node.js, Express, and Seque
 ## Installation
 
 1. Clone the repository:
-    ```sh
-    git clone <repository-url>
-    ```
+    git clone -b main https://github.com/Sagar97Dev/task_backend.git
 
 2. Navigate to the project directory:
-    cd task-manager
 
 3. Install dependencies:
     npm install express body-parser cors sequelize pg pg-hstore swagger-jsdoc swagger-ui-express
